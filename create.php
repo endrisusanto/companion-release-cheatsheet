@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         if (createRelease($data)) {
-            header('Location: index.php?status=created');
+            header('Location: today.php?status=created');
             exit;
         } else {
             $error = 'Failed to create release data!';

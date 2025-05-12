@@ -27,11 +27,20 @@
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
                 <a href="index.php" class="text-xl font-bold">Companion Release Cheat Sheet</a>
-                <div class="hidden md:flex space-x-4">
+                <div class="hidden md:flex space-x-4 items-center">
                     <a href="index.php" class="hover:bg-blue-700 px-3 py-2 rounded">Home</a>
-                    <a href="create.php" class="hover:bg-blue-700 px-3 py-2 rounded">Add New</a>
+                    <a href="today.php" class="hover:bg-blue-700 px-3 py-2 rounded">Today Releases</a>
                     <?php if (isLoggedIn()): ?>
-                        <a href="logout.php" class="hover:bg-blue-700 px-3 py-2 rounded">Logout</a>
+                        <div class="relative">
+                            <button class="hover:bg-blue-700 px-3 py-2 rounded flex items-center focus:outline-none" id="user-menu-button">
+                                <span><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                                <i class="fas fa-chevron-down ml-2"></i>
+                            </button>
+                            <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10" id="user-menu">
+                                <a href="profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
                     <?php else: ?>
                         <a href="login.php" class="hover:bg-blue-700 px-3 py-2 rounded">Login</a>
                     <?php endif; ?>
@@ -43,8 +52,9 @@
             <div class="md:hidden hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1">
                     <a href="index.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Home</a>
-                    <a href="create.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Add New</a>
+                    <a href="today.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Today Releases</a>
                     <?php if (isLoggedIn()): ?>
+                        <a href="profile.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Profile</a>
                         <a href="logout.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Logout</a>
                     <?php else: ?>
                         <a href="login.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Login</a>
@@ -68,3 +78,30 @@
             unset($_SESSION['flash_type']);
         }
         ?>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // User dropdown menu toggle
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+        if (userMenuButton && userMenu) {
+            userMenuButton.addEventListener('click', () => {
+                userMenu.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                    userMenu.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

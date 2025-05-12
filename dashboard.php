@@ -9,7 +9,7 @@ $totalModels = countModels();
 ?>
 
 <div class="bg-white shadow rounded-lg p-6 mb-6">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Overview</h1>
+    <!-- <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Overview</h1> -->
     
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             backgroundColor: colors[index % colors.length],
             borderColor: colors[index % colors.length].replace('0.7', '1'),
             borderWidth: 1,
-            borderRadius: 4, // Rounded bars
+            borderRadius: 2, // Rounded bars
             barPercentage: 1, // Full width for each bar
             categoryPercentage: 0.5 // No gaps between bars in a date
         };
@@ -169,6 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <style>
     #dailyChart {
-        max-height: 300px; /* Restrict height */
+        max-height: 200px; /* Restrict height */
     }
 </style>

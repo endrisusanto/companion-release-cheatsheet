@@ -192,14 +192,30 @@ function generateReleaseNote($ap, $cp, $csc_version_up) {
            "CSC Version Up -> $csc_version_up";
 }
 
+// ... other functions ...
+
 function getTodayReleases() {
     global $pdo;
-    $stmt = $pdo->prepare("SELECT * FROM release_cheatsheets 
-                          WHERE DATE(created_at) = CURDATE() 
-                          ORDER BY created_at DESC");
+    $stmt = $pdo->prepare("SELECT id, model, ole_version, ap, cp, csc_version_up, pic, created_at, status 
+                           FROM release_cheatsheets 
+                           WHERE DATE(created_at) = CURDATE() 
+                           ORDER BY created_at DESC");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getTodayReleasesByPic($pic) {
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT id, model, ole_version, ap, cp, csc_version_up, pic, created_at, status 
+                           FROM release_cheatsheets 
+                           WHERE DATE(created_at) = CURDATE() 
+                           AND pic = ? 
+                           ORDER BY created_at DESC");
+    $stmt->execute([$pic]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// ... other functions ...
 
 function countReleases($search = '') {
     global $pdo;
@@ -227,7 +243,11 @@ function countUsers() {
     $stmt = $pdo->query("SELECT COUNT(*) FROM users");
     return $stmt->fetchColumn();
 }
-
+function updateReleaseStatus($id, $status) {
+    global $pdo; // Assuming PDO connection
+    $stmt = $pdo->prepare("UPDATE release_cheatsheets SET status = ? WHERE id = ?");
+    $stmt->execute([$status, $id]);
+}
 function getReleaseStats() {
     global $pdo;
     $stmt = $pdo->query("

@@ -8,7 +8,7 @@ include __DIR__ . '/dashboard.php';
 // Rest of your existing index.php code...
 $search = $_GET['search'] ?? '';
 $page = max(1, $_GET['page'] ?? 1);
-$perPage = 10;
+$perPage = 5;
 
 $releases = getAllReleases($search, $page, $perPage);
 $totalItems = countReleases($search);
