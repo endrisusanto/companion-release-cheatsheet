@@ -1,16 +1,15 @@
 <?php
 require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/header.php';
+// header.php tidak diperlukan di sini karena file ini di-include oleh index.php yang sudah memuatnya.
 
 $stats = getDailyStats();
-$todayReleases = count(getTodayReleases());
+// MODIFIED: Menggunakan fungsi baru yang benar untuk mendapatkan jumlah rilis hari ini.
+$todayReleases = count(getTodayReleasesFiltered(date('Y-m-d'), 'all'));
 $totalReleases = countReleases();
 $totalModels = countModels();
 ?>
 
 <div class="bg-white shadow rounded-lg p-6 mb-6">
-    <!-- <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Overview</h1> -->
-    
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
             <h3 class="text-lg font-medium text-blue-800">Today's Releases</h3>
@@ -34,7 +33,7 @@ $totalModels = countModels();
     </div>
     
     <div class="bg-gray-50 p-4 rounded-lg">
-        <h2 class="text-xl font-semibold text-gray-700 mb-4">Daily Releases and PIC Contributions (Last 30 Days)</h2>
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Daily Releases and PIC Contributions (<?php echo date('M Y'); ?>)</h2>
         <canvas id="dailyChart" height="100"></canvas>
     </div>
 </div>
@@ -42,8 +41,12 @@ $totalModels = countModels();
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Prepare data
-    const stats = <?php echo json_encode($stats); ?>;
+    // Pastikan data stats tersedia dan bukan null
+    const stats = <?php echo json_encode($stats ?? []); ?>;
+    if (!stats || stats.length === 0) {
+        // Jika tidak ada data, jangan coba render chart
+        return;
+    }
     
     // Group by date for chart
     const dates = [...new Set(stats.map(item => item.date))].sort();
@@ -52,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Total daily releases for line chart
     const dailyData = dates.map(date => {
         const items = stats.filter(item => item.date === date);
-        return items.reduce((sum, item) => sum + parseInt(item.total), 0);
+        return items.reduce((sum, item) => sum + parseInt(item.pic_count), 0); // Menggunakan pic_count agar lebih akurat per entri
     });
     
     // Datasets for each PIC (side-by-side bars, no gaps)
@@ -66,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const barDatasets = pics.map((pic, index) => {
         const data = dates.map(date => {
-            const items = stats.filter(item => item.date === date && item.pic === pic);
-            return items.reduce((sum, item) => sum + parseInt(item.total), 0);
+            const item = stats.find(item => item.date === date && item.pic === pic);
+            return item ? parseInt(item.pic_count) : 0;
         });
         return {
             type: 'bar',

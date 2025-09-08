@@ -1,10 +1,25 @@
+<style>
+.glow-input {
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px rgba(66, 153, 225, 0.5);
+        background-color: rgba(219, 234, 254, 0.5);
+    }
+    to {
+        box-shadow: 0 0 15px rgba(66, 153, 225, 0.8);
+        background-color: rgba(219, 234, 254, 0.8);
+    }
+}
+</style>
+
 <?php
 require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['bulk_data'])) {
-        // Handle bulk data entry
         $bulkData = $_POST['bulk_data'] ?? '';
         $result = createBulkReleases($bulkData);
         if ($result['status']) {
@@ -14,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Failed to create bulk releases: ' . $result['message'];
         }
     } elseif (isset($_POST['model'])) {
-        // Handle single entry (existing form)
         $data = [
             'model' => $_POST['model'] ?? '',
             'ole_version' => $_POST['ole_version'] ?? '',
@@ -24,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'cp' => $_POST['cp'] ?? '',
             'csc' => $_POST['csc'] ?? '',
             'qb_csc_user' => $_POST['qb_csc_user'] ?? '',
-            'additional_cl' => $_POST['additional_cl'] ?? '-',
+            'additional_cl' => $_POST['additional_cl'] ?? '',
             'new_build_xid' => $_POST['new_build_xid'] ?? '',
             'qb_csc_user_xid' => $_POST['qb_csc_user_xid'] ?? '',
             'qb_csc_eng' => $_POST['qb_csc_eng'] ?? '',
@@ -39,6 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+// Include header after processing to avoid output before redirect
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="bg-white shadow rounded-lg p-6">
@@ -69,18 +86,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Model</label>
                     <input type="text" name="model" required
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">OLE VERSION</label>
-                    <input type="text" name="ole_version" required
+                    <input type="text" name="ole_version" 
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">QB USER</label>
-                    <input type="text" name="qb_user" required
+                    <input type="text" name="qb_user" 
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 
@@ -90,30 +107,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div>
                             <label class="block text-sm font-medium text-gray-700">AP</label>
                             <input type="text" name="ap" required
-                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">CP</label>
-                            <input type="text" name="cp" required
-                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <input type="text" name="cp"
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">CSC</label>
                             <input type="text" name="csc" required
-                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
                         </div>
                     </div>
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">QB CSC USER</label>
-                    <input type="text" name="qb_csc_user" required
+                    <input type="text" name="qb_csc_user" 
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">ADDITIONAL CL</label>
-                    <input type="text" name="additional_cl" value="-"
+                    <input type="text" name="additional_cl" value=""
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 
@@ -122,12 +139,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">QB CSC USER (XID)</label>
-                            <input type="text" name="qb_csc_user_xid" required
+                            <input type="text" name="qb_csc_user_xid" 
                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">QB CSC ENG</label>
-                            <input type="text" name="qb_csc_eng" required
+                            <input type="text" name="qb_csc_eng" 
                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>

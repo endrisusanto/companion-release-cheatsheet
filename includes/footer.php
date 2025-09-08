@@ -1,24 +1,36 @@
+<?php
+// Ensure no whitespace before this
+?>
     </main>
-
-    <footer class="footer bg-gray-100 border-t border-gray-200 py-4">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="text-gray-600 mb-2 md:mb-0">
-                    &copy; <?php echo date('Y'); ?> Companion Release Cheat Sheet
-                </div>
-                <div class="text-gray-600">
-                    v1.0.0
-                </div>
-            </div>
-        </div>
+    <footer class="footer bg-gray-200 text-center py-4">
+        <p class="text-gray-600">&copy; <?php echo date('Y'); ?> Companion Release Cheat Sheet</p>
     </footer>
-
     <script>
         // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
+
+        // User dropdown menu toggle
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+        if (userMenuButton && userMenu) {
+            userMenuButton.addEventListener('click', () => {
+                userMenu.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                    userMenu.classList.add('hidden');
+                }
+            });
+        }
     </script>
 </body>
 </html>
+<?php
+// Ensure no whitespace after this
+?>

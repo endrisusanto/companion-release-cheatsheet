@@ -1,9 +1,16 @@
+<?php
+// Ensure no whitespace before this
+require_once __DIR__ . '/functions.php';
+startSessionIfNotStarted();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Companion Release Cheat Sheet</title>
+    <title>Companion Release Reference Sheet</title>
+    <meta property="og:image" content="http://107.102.39.55/companion-release-cheatsheet/check.png" />
+    <meta property="og:title" content="Companion Release Cheat Sheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -26,11 +33,14 @@
     <nav class="bg-blue-600 text-white shadow-lg">
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
-                <a href="index.php" class="text-xl font-bold">Companion Release Cheat Sheet</a>
+                <a href="index.php" class="text-xl font-bold">Companion Release Reference Sheet</a>
                 <div class="hidden md:flex space-x-4 items-center">
                     <a href="index.php" class="hover:bg-blue-700 px-3 py-2 rounded">Home</a>
                     <a href="today.php" class="hover:bg-blue-700 px-3 py-2 rounded">Today Releases</a>
-                    <?php if (isLoggedIn()): ?>
+                    <a href="all_releases.php" class="block hover:bg-blue-700 px-3 py-2 rounded">All Releases</a>
+                    <a href="command.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Build Command Converter</a>
+
+					<?php if (isLoggedIn()): ?>
                         <div class="relative">
                             <button class="hover:bg-blue-700 px-3 py-2 rounded flex items-center focus:outline-none" id="user-menu-button">
                                 <span><?php echo htmlspecialchars($_SESSION['username']); ?></span>
@@ -53,6 +63,8 @@
                 <div class="px-2 pt-2 pb-3 space-y-1">
                     <a href="index.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Home</a>
                     <a href="today.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Today Releases</a>
+                    <a href="all_releases.php" class="block hover:bg-blue-700 px-3 py-2 rounded">All Releases</a>
+                    <a href="command.php" class="block hover:bg-blue-700 px-3 py-2 rounded">System Build Command Converter</a>
                     <?php if (isLoggedIn()): ?>
                         <a href="profile.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Profile</a>
                         <a href="logout.php" class="block hover:bg-blue-700 px-3 py-2 rounded">Logout</a>
@@ -63,7 +75,6 @@
             </div>
         </div>
     </nav>
-
     <main class="main-content container mx-auto px-4 py-6 flex-grow">
         <?php 
         if (isset($_SESSION['flash_message'])) {
@@ -77,31 +88,4 @@
             unset($_SESSION['flash_message']);
             unset($_SESSION['flash_type']);
         }
-        ?>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // User dropdown menu toggle
-        const userMenuButton = document.getElementById('user-menu-button');
-        const userMenu = document.getElementById('user-menu');
-        if (userMenuButton && userMenu) {
-            userMenuButton.addEventListener('click', () => {
-                userMenu.classList.toggle('hidden');
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (event) => {
-                if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
-                    userMenu.classList.add('hidden');
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+        ?> 
