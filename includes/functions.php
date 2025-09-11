@@ -106,13 +106,14 @@ function createRelease($data) {
     // Auto-generate fields
     $csc_version_up = convertCscVersion($data['csc']);
     $release_note = generateReleaseNote($data['ap'], $data['cp'], $csc_version_up);
+    $new_xid_cl_partial = trim(($data['cl_partial_csc_oxm'] ?? '') . ' ' . ($data['additional_cl'] ?? ''));
     
     $stmt = $pdo->prepare("INSERT INTO release_cheatsheets 
         (model, ole_version, qb_user, oxm_olm_new_version, ap, cp, csc, 
-        qb_csc_user, additional_cl, partial_cl, p4_path, new_build_xid, qb_csc_user_xid, 
+        qb_csc_user, additional_cl, cl_sync, cl_partial_csc_oxm, command_qb_user, command_qb_eng, new_xid_cl_partial, partial_cl, p4_path, new_build_xid, qb_csc_user_xid, 
         qb_csc_eng, release_note_format, ap_mapping, cp_mapping, 
         csc_version_up, pic, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
     
     return $stmt->execute([
         $data['model'],
@@ -124,6 +125,11 @@ function createRelease($data) {
         $data['csc'],
         $data['qb_csc_user'],
         $data['additional_cl'],
+        $data['cl_sync'],
+        $data['cl_partial_csc_oxm'],
+        $data['command_qb_user'],
+        $data['command_qb_eng'],
+        $new_xid_cl_partial,
         $data['partial_cl'],
         $data['p4_path'],
         $data['new_build_xid'],
@@ -143,10 +149,11 @@ function updateRelease($id, $data) {
     // Auto-generate fields
     $csc_version_up = convertCscVersion($data['csc']);
     $release_note = generateReleaseNote($data['ap'], $data['cp'], $csc_version_up);
-    
+    $new_xid_cl_partial = trim(($data['cl_partial_csc_oxm'] ?? '') . ' ' . ($data['additional_cl'] ?? ''));
+
     $stmt = $pdo->prepare("UPDATE release_cheatsheets SET 
         model = ?, ole_version = ?, qb_user = ?, oxm_olm_new_version = ?, ap = ?, cp = ?, csc = ?, 
-        qb_csc_user = ?, additional_cl = ?, partial_cl = ?, p4_path = ?, new_build_xid = ?, qb_csc_user_xid = ?, qb_csc_eng = ?, 
+        qb_csc_user = ?, additional_cl = ?, cl_sync = ?, cl_partial_csc_oxm = ?, command_qb_user = ?, command_qb_eng = ?, new_xid_cl_partial = ?, partial_cl = ?, p4_path = ?, new_build_xid = ?, qb_csc_user_xid = ?, qb_csc_eng = ?, 
         release_note_format = ?, ap_mapping = ?, cp_mapping = ?, csc_version_up = ?, pic = ?
         WHERE id = ?");
     
@@ -160,6 +167,11 @@ function updateRelease($id, $data) {
         $data['csc'],
         $data['qb_csc_user'],
         $data['additional_cl'],
+        $data['cl_sync'],
+        $data['cl_partial_csc_oxm'],
+        $data['command_qb_user'],
+        $data['command_qb_eng'],
+        $new_xid_cl_partial,
         $data['partial_cl'],
         $data['p4_path'],
         $data['new_build_xid'],
@@ -240,7 +252,7 @@ function generateReleaseNote($ap, $cp, $csc_version_up) {
 function getReleasesByDate($date, $excludeStatuses = [], $apFilterType = 'none', $searchQuery = '', $filterEmptyP4Path = false) {
     global $pdo;
     $sql = "SELECT id, model, ap, cp, csc, ole_version, pic, created_at, status, 
-                   qb_user, qb_csc_user, additional_cl, partial_cl, p4_path, qb_csc_user_xid, qb_csc_eng, release_note_format, csc_version_up
+                   qb_user, qb_csc_user, additional_cl, cl_sync, cl_partial_csc_oxm, command_qb_user, command_qb_eng, new_xid_cl_partial, partial_cl, p4_path, qb_csc_user_xid, qb_csc_eng, release_note_format, csc_version_up
             FROM release_cheatsheets 
             WHERE DATE(created_at) = ?";
     
@@ -290,7 +302,7 @@ function getReleasesByDate($date, $excludeStatuses = [], $apFilterType = 'none',
 function getReleasesByDateAndPic($date, $pic, $excludeStatuses = [], $apFilterType = 'none', $searchQuery = '', $filterEmptyP4Path = false) {
     global $pdo;
     $sql = "SELECT id, model, ap, cp, csc, ole_version, pic, created_at, status, 
-                   qb_user, qb_csc_user, additional_cl, partial_cl, p4_path, qb_csc_user_xid, qb_csc_eng, release_note_format, csc_version_up
+                   qb_user, qb_csc_user, additional_cl, cl_sync, cl_partial_csc_oxm, command_qb_user, command_qb_eng, new_xid_cl_partial, partial_cl, p4_path, qb_csc_user_xid, qb_csc_eng, release_note_format, csc_version_up
             FROM release_cheatsheets 
             WHERE DATE(created_at) = ? AND pic = ?";
     
@@ -443,7 +455,7 @@ function updateReleaseField($id, $field, $value) {
     global $pdo; 
     
     // Added 'p4_path' to validFields
-    $validFields = ['additional_cl', 'partial_cl', 'p4_path', 'qb_csc_eng', 'qb_csc_user_xid', 'qb_user', 'ole_version', 'qb_csc_user', 'csc'];
+    $validFields = ['additional_cl', 'partial_cl', 'p4_path', 'qb_csc_eng', 'qb_csc_user_xid', 'qb_user', 'ole_version', 'qb_csc_user', 'csc', 'cl_sync', 'cl_partial_csc_oxm', 'command_qb_user', 'command_qb_eng'];
     if (!in_array($field, $validFields)) {
         error_log("Invalid field attempted for update: " . $field);
         return false;

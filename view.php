@@ -29,7 +29,7 @@ if ($release['status'] === 'new' || empty($release['status'])) {
 
 <div class="bg-white shadow rounded-lg p-6">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Release Details: <?php echo htmlspecialchars($release['model']); ?></h1>
+        <h1 class="text-2xl font-bold text-gray-800">Release Details: <?php echo htmlspecialchars($release['model'] ?? ''); ?></h1>
         <div class="flex space-x-2">
             <a href="edit.php?id=<?php echo $release['id']; ?>" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md">
                 <i class="fas fa-edit mr-1"></i>Edit
@@ -78,15 +78,15 @@ if ($release['status'] === 'new' || empty($release['status'])) {
             <div class="space-y-3">
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">Model</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['model']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['model'] ?? ''); ?></span>
                 </div>
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">OLE Version</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['ole_version']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['ole_version'] ?? ''); ?></span>
                 </div>
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">QB User</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['qb_user']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['qb_user'] ?? ''); ?></span>
                 </div>
             </div>
         </div>
@@ -96,19 +96,19 @@ if ($release['status'] === 'new' || empty($release['status'])) {
             <div class="space-y-3">
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">AP</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['ap']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['ap'] ?? ''); ?></span>
                 </div>
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">CP</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['cp']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['cp'] ?? ''); ?></span>
                 </div>
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">CSC</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['csc']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['csc'] ?? ''); ?></span>
                 </div>
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">QB CSC User</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['qb_csc_user']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['qb_csc_user'] ?? ''); ?></span>
                 </div>
             </div>
         </div>
@@ -120,16 +120,29 @@ if ($release['status'] === 'new' || empty($release['status'])) {
             <div class="space-y-3">
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">Additional CL</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['additional_cl']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['additional_cl'] ?? ''); ?></span>
                 </div>
                 
                 <div class="grid grid-cols-3">
+                    <span class="text-gray-600 font-medium">CL Sync</span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['cl_sync'] ?? ''); ?></span>
+                </div>
+                <div class="grid grid-cols-3">
+                    <span class="text-gray-600 font-medium">CL Partial CSC OXM</span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['cl_partial_csc_oxm'] ?? ''); ?></span>
+                </div>
+                <div class="grid grid-cols-3">
+                    <span class="text-gray-600 font-medium">New XID CL Partial</span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['new_xid_cl_partial'] ?? ''); ?></span>
+                </div>
+
+                <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">QB CSC User (XID)</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['qb_csc_user_xid']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['qb_csc_user_xid'] ?? ''); ?></span>
                 </div>
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">QB CSC Eng (XID)</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['qb_csc_eng']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['qb_csc_eng'] ?? ''); ?></span>
                 </div>
             </div>
         </div>
@@ -139,31 +152,45 @@ if ($release['status'] === 'new' || empty($release['status'])) {
             <div class="space-y-3">
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">AP Mapping to Base</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['ap_mapping']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['ap_mapping'] ?? ''); ?></span>
                 </div>
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">CP Mapping to Base</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['cp_mapping']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['cp_mapping'] ?? ''); ?></span>
                 </div>
                 <div class="grid grid-cols-3">
                     <span class="text-gray-600 font-medium">CSC Version Up</span>
-                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['csc_version_up']); ?></span>
+                    <span class="col-span-2 relative copyable cursor-pointer" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['csc_version_up'] ?? ''); ?></span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="bg-gray-50 p-4 rounded-lg mb-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Command QB User</h2>
+        <div class="bg-white p-4 rounded border border-gray-200">
+            <pre class="whitespace-pre-wrap font-mono text-sm relative copyable cursor-pointer break-all" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['command_qb_user'] ?? ''); ?></pre>
+        </div>
+    </div>
+    
+    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Command QB Eng</h2>
+        <div class="bg-white p-4 rounded border border-gray-200">
+            <pre class="whitespace-pre-wrap font-mono text-sm relative copyable cursor-pointer break-all" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['command_qb_eng'] ?? ''); ?></pre>
+        </div>
+    </div>
+
+    <div class="bg-gray-50 p-4 rounded-lg mb-6">
         <h2 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Release Note Format</h2>
         <div class="bg-white p-4 rounded border border-gray-200">
-            <pre class="whitespace-pre-wrap font-mono text-sm relative copyable cursor-pointer break-all" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['release_note_format']); ?></pre>
+            <pre class="whitespace-pre-wrap font-mono text-sm relative copyable cursor-pointer break-all" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['release_note_format'] ?? ''); ?></pre>
         </div>
     </div>
 
     <div class="bg-gray-50 p-4 rounded-lg mb-6">
         <h2 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Partial CL</h2>
         <div class="bg-white p-4 rounded border border-gray-200">
-            <pre class="whitespace-pre-wrap font-mono text-sm relative copyable cursor-pointer break-all" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['partial_cl']); ?></pre>
+            <pre class="whitespace-pre-wrap font-mono text-sm relative copyable cursor-pointer break-all" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['partial_cl'] ?? ''); ?></pre>
         </div>
     </div>
     <div class="flex justify-end">

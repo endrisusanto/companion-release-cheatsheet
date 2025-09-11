@@ -195,7 +195,7 @@ $todayReleases = getTodayReleasesFiltered($displayDateStr, $filter, $excludeStat
                 <div class="flex items-center space-x-2">
                     <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
                     <input type="text" name="search" id="search" placeholder="Model, PIC, AP, CSC..."
-                            value="<?php echo htmlspecialchars($searchQuery); ?>"
+                            value="<?php echo htmlspecialchars($searchQuery ?? ''); ?>"
                             class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
@@ -219,7 +219,13 @@ $todayReleases = getTodayReleasesFiltered($displayDateStr, $filter, $excludeStat
                     <th class="py-2 px-3 text-left text-sm min-w-[100px]">New QB CSC User (XID)</th>
                     <th class="py-2 px-3 text-left text-sm min-w-[100px]">New QB CSC Eng (XID)</th>
                     <th class="py-2 px-3 text-left text-sm min-w-[100px]">Additional CL</th>
+                    <th class="py-2 px-3 text-left text-sm min-w-[100px]">CL Sync</th>
+                    <th class="py-2 px-3 text-left text-sm min-w-[100px]">CL Partial CSC OXM</th>
+                    <th class="py-2 px-3 text-left text-sm min-w-[100px]">Command QB User</th>
+                    <th class="py-2 px-3 text-left text-sm min-w-[100px]">Command QB Eng</th>
+                    <th class="py-2 px-3 text-left text-sm min-w-[100px]">New XID CL Partial</th>
                     <th class="py-2 px-3 text-left text-sm min-w-[100px]">P4 Path</th>
+                    <th class="py-2 px-3 text-left text-sm min-w-[100px]">Swarm P4</th>
                     <th class="py-2 px-3 text-left text-sm min-w-[100px]">Partial CL CSC LAMA</th>
                     <th class="py-2 px-3 text-left text-sm min-w-[120px]">CSC Version Up</th>
                     <th class="py-2 px-3 text-left text-sm min-w-[60px]">Release Note</th>
@@ -230,33 +236,33 @@ $todayReleases = getTodayReleasesFiltered($displayDateStr, $filter, $excludeStat
             <tbody class="divide-y divide-gray-200" id="releaseTableBody">
                 <?php if (empty($todayReleases)): ?>
                     <tr>
-                        <td colspan="17" class="py-6 px-3 text-center text-sm text-gray-500">
+                        <td colspan="23" class="py-6 px-3 text-center text-sm text-gray-500">
                             No releases found for <?php echo htmlspecialchars($displayDateStr); ?>
                         </td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($todayReleases as $release): ?>
-                        <tr class="hover:bg-gray-50" data-status="<?php echo htmlspecialchars($release['status']); ?>">
+                        <tr class="hover:bg-gray-50" data-status="<?php echo htmlspecialchars($release['status'] ?? ''); ?>">
                             <td class="py-2 px-3 text-sm">
-                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['model']); ?></span>
+                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['model'] ?? ''); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm">
-                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['pic']); ?></span>
+                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['pic'] ?? ''); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm  highlight-blue <?php echo (stripos($release['ap'], 'XXS') !== false || stripos($release['ap'], 'DXS') !== false || stripos($release['ap'], 'TBS') !== false) ? 'highlight' : ''; ?>">
-                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['ap']); ?></span>
+                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['ap'] ?? ''); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm ">
-                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['cp']); ?></span>
+                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Click to copy"><?php echo htmlspecialchars($release['cp'] ?? ''); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm font-bold text-green-600 " data-field="csc" data-id="<?php echo $release['id']; ?>">
-                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['csc']); ?></span>
+                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['csc'] ?? ''); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm editable" data-field="qb_csc_user" data-id="<?php echo $release['id']; ?>">
                                 <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['qb_csc_user'] ?? '-'); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm font-bold text-blue-600 editable" data-field="ole_version" data-id="<?php echo $release['id']; ?>">
-                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['ole_version']); ?></span>
+                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['ole_version'] ?? ''); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm editable" data-field="qb_user" data-id="<?php echo $release['id']; ?>">
                                 <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['qb_user'] ?? '-'); ?></span>
@@ -271,6 +277,66 @@ $todayReleases = getTodayReleasesFiltered($displayDateStr, $filter, $excludeStat
                                 <span class="copyable cursor-pointer relative truncate max-w-[150px]" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['additional_cl'] ?? '-'); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm text-center">
+                                <?php if (!empty($release['cl_sync'])): ?>
+                                    <i class="fas fa-check-circle text-green-500 copyable cursor-pointer relative"
+                                        data-tooltip="Click to copy"
+                                        data-text="<?php echo htmlspecialchars($release['cl_sync']); ?>"
+                                        data-debug="Present"></i>
+                                <?php else: ?>
+                                    <i class="fas fa-times-circle text-red-500 cursor-not-allowed"
+                                        data-tooltip="No CL Sync"
+                                        data-debug="Empty"></i>
+                                <?php endif; ?>
+                            </td>
+                            <td class="py-2 px-3 text-sm text-center">
+                                <?php if (!empty($release['cl_partial_csc_oxm'])): ?>
+                                    <i class="fas fa-check-circle text-green-500 copyable cursor-pointer relative"
+                                        data-tooltip="Click to copy"
+                                        data-text="<?php echo htmlspecialchars($release['cl_partial_csc_oxm']); ?>"
+                                        data-debug="Present"></i>
+                                <?php else: ?>
+                                    <i class="fas fa-times-circle text-red-500 cursor-not-allowed"
+                                        data-tooltip="No CL Partial CSC OXM"
+                                        data-debug="Empty"></i>
+                                <?php endif; ?>
+                            </td>
+                            <td class="py-2 px-3 text-sm text-center">
+                                <?php if (!empty($release['command_qb_user'])): ?>
+                                    <i class="fas fa-check-circle text-green-500 copyable cursor-pointer relative"
+                                        data-tooltip="Click to copy"
+                                        data-text="<?php echo htmlspecialchars($release['command_qb_user']); ?>"
+                                        data-debug="Present"></i>
+                                <?php else: ?>
+                                    <i class="fas fa-times-circle text-red-500 cursor-not-allowed"
+                                        data-tooltip="No Command QB User"
+                                        data-debug="Empty"></i>
+                                <?php endif; ?>
+                            </td>
+                            <td class="py-2 px-3 text-sm text-center">
+                                <?php if (!empty($release['command_qb_eng'])): ?>
+                                    <i class="fas fa-check-circle text-green-500 copyable cursor-pointer relative"
+                                        data-tooltip="Click to copy"
+                                        data-text="<?php echo htmlspecialchars($release['command_qb_eng']); ?>"
+                                        data-debug="Present"></i>
+                                <?php else: ?>
+                                    <i class="fas fa-times-circle text-red-500 cursor-not-allowed"
+                                        data-tooltip="No Command QB Eng"
+                                        data-debug="Empty"></i>
+                                <?php endif; ?>
+                            </td>
+                            <td class="py-2 px-3 text-sm text-center">
+                                <?php if (!empty($release['new_xid_cl_partial'])): ?>
+                                    <i class="fas fa-check-circle text-green-500 copyable cursor-pointer relative"
+                                        data-tooltip="Click to copy"
+                                        data-text="<?php echo htmlspecialchars($release['new_xid_cl_partial']); ?>"
+                                        data-debug="Present"></i>
+                                <?php else: ?>
+                                    <i class="fas fa-times-circle text-red-500 cursor-not-allowed"
+                                        data-tooltip="No New XID CL Partial"
+                                        data-debug="Empty"></i>
+                                <?php endif; ?>
+                            </td>
+                            <td class="py-2 px-3 text-sm text-center">
                                 <?php if (!empty($release['p4_path'])): ?>
                                     <i class="fas fa-check-circle text-green-500 copyable cursor-pointer relative"
                                         data-tooltip="Click to copy"
@@ -280,6 +346,16 @@ $todayReleases = getTodayReleasesFiltered($displayDateStr, $filter, $excludeStat
                                     <i class="fas fa-times-circle text-red-500 cursor-not-allowed"
                                         data-tooltip="No P4 Path"
                                         data-debug="Empty"></i>
+                                <?php endif; ?>
+                            </td>
+                            <td class="py-2 px-3 text-sm text-center">
+                                <?php if (!empty($release['p4_path'])): ?>
+                                    <a href="https://review1716.sec.samsung.net/files/<?php echo substr(htmlspecialchars($release['p4_path']), 2) . '/#commits'; ?>" target="_blank" class="text-green-500 hover:text-green-700">
+                                        <i class="fas fa-check-circle"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <i class="fas fa-times-circle text-red-500 cursor-not-allowed"
+                                        data-tooltip="No Swarm P4 Path"></i>
                                 <?php endif; ?>
                             </td>
                             <td class="py-2 px-3 text-sm text-center">
@@ -295,7 +371,7 @@ $todayReleases = getTodayReleasesFiltered($displayDateStr, $filter, $excludeStat
                                 <?php endif; ?>
                             </td>
                             <td class="py-2 px-3 text-sm font-bold text-green-600" data-field="csc_version_up" data-id="<?php echo $release['id']; ?>">
-                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['csc_version_up']); ?></span>
+                                <span class="copyable cursor-pointer relative whitespace-nowrap" data-tooltip="Double-click to edit"><?php echo htmlspecialchars($release['csc_version_up'] ?? ''); ?></span>
                             </td>
                             <td class="py-2 px-3 text-sm text-center">
                                 <?php if (!empty($release['release_note_format'])): ?>
@@ -316,7 +392,7 @@ $todayReleases = getTodayReleasesFiltered($displayDateStr, $filter, $excludeStat
                                     <span class="text-yellow-600 font-normal bg-yellow-100 px-2 py-1 rounded">Progress</span>
                                 <?php elseif ($release['status'] === 'skipped'): ?>
                                     <span class="text-red-600 font-bold bg-red-100 px-2 py-1 rounded">Skipped</span>
-                                <?php else: ?>
+                                <?php else: ?>                                
                                     <span class="text-red-600 font-bold bg-red-100 px-2 py-1 rounded">New !</span>
                                 <?php endif; ?>
                             </td>
@@ -411,7 +487,7 @@ $todayReleases = getTodayReleasesFiltered($displayDateStr, $filter, $excludeStat
             const currentRow = cell.closest('tr');
             // Re-calculate the status column index as a new column was added before it
             const statusCells = currentRow.querySelectorAll('td');
-            const currentStatusCell = statusCells[15]; // Now index 15 for the 16th td (0-indexed)
+            const currentStatusCell = statusCells[21]; // Now index 21 for the 22th td (0-indexed)
             const currentStatusSpan = currentStatusCell.querySelector('span');
             const currentStatusText = currentStatusSpan ? currentStatusSpan.textContent.trim().toLowerCase() : '';
 

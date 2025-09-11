@@ -39,6 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'csc' => $_POST['csc'] ?? '',
             'qb_csc_user' => $_POST['qb_csc_user'] ?? '',
             'additional_cl' => $_POST['additional_cl'] ?? '',
+            'cl_sync' => $_POST['cl_sync'] ?? '',
+            'cl_partial_csc_oxm' => $_POST['cl_partial_csc_oxm'] ?? '',
+            'command_qb_user' => $_POST['command_qb_user'] ?? '',
+            'command_qb_eng' => $_POST['command_qb_eng'] ?? '',
             'new_build_xid' => $_POST['new_build_xid'] ?? '',
             'qb_csc_user_xid' => $_POST['qb_csc_user_xid'] ?? '',
             'qb_csc_eng' => $_POST['qb_csc_eng'] ?? '',
@@ -67,7 +71,6 @@ require_once __DIR__ . '/includes/header.php';
         </div>
     <?php endif; ?>
 
-    <!-- Tabs for Single vs Bulk Entry -->
     <div class="mb-6">
         <ul class="flex border-b">
             <li class="mr-1">
@@ -79,7 +82,6 @@ require_once __DIR__ . '/includes/header.php';
         </ul>
     </div>
 
-    <!-- Single Entry Form -->
     <div id="single" class="tab-content">
         <form method="POST" class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -133,6 +135,30 @@ require_once __DIR__ . '/includes/header.php';
                     <input type="text" name="additional_cl" value=""
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">CL Sync</label>
+                    <input type="text" name="cl_sync" value=""
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">CL Partial CSC OXM</label>
+                    <input type="text" name="cl_partial_csc_oxm" value=""
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700">Command QB User</label>
+                    <textarea name="command_qb_user" rows="3"
+                              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700">Command QB Eng</label>
+                    <textarea name="command_qb_eng" rows="3"
+                              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
                 
                 <div class="md:col-span-2">
                     <h3 class="text-lg font-medium text-gray-900 border-b pb-2">NEW BUILD XID</h3>
@@ -168,7 +194,6 @@ require_once __DIR__ . '/includes/header.php';
         </form>
     </div>
 
-    <!-- Bulk Entry Form -->
     <div id="bulk" class="tab-content hidden">
         <form method="POST" class="space-y-4">
             <div>

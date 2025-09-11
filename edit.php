@@ -40,6 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'csc' => $_POST['csc'] ?? '',
         'qb_csc_user' => $_POST['qb_csc_user'] ?? '',
         'additional_cl' => $_POST['additional_cl'] ?? '',
+        'cl_sync' => $_POST['cl_sync'] ?? '',
+        'cl_partial_csc_oxm' => $_POST['cl_partial_csc_oxm'] ?? '',
+        'command_qb_user' => $_POST['command_qb_user'] ?? '',
+        'command_qb_eng' => $_POST['command_qb_eng'] ?? '',
         'partial_cl' => $_POST['partial_cl'] ?? '',
         'p4_path' => $_POST['p4_path'] ?? '', // Added p4_path here
         'new_build_xid' => $_POST['new_build_xid'] ?? '',
@@ -118,7 +122,7 @@ if ($release['status'] === 'new' || empty($release['status'])) {
 
 <div class="bg-white shadow rounded-lg p-6">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Release Details: <?php echo htmlspecialchars($release['model']); ?></h1>
+        <h1 class="text-2xl font-bold text-gray-800">Release Details: <?php echo htmlspecialchars($release['model'] ?? ''); ?></h1>
         <div class="flex space-x-2">
             <a href="edit.php?id=<?php echo $release['id']; ?>" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-md">
                 <i class="fas fa-edit mr-1"></i>Edit
@@ -150,7 +154,7 @@ if ($release['status'] === 'new' || empty($release['status'])) {
             <div class="md:col-span-2">
                 <label for="model" class="block text-sm font-medium text-gray-700">Model</label>
                 <input type="text" id="model" name="model" required
-                        value="<?php echo htmlspecialchars($release['model']); ?>"
+                        value="<?php echo htmlspecialchars($release['model'] ?? ''); ?>"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
@@ -158,13 +162,13 @@ if ($release['status'] === 'new' || empty($release['status'])) {
                 <div>
                     <label for="qb_user" class="block text-sm font-medium text-gray-700">QB USER</label>
                     <input type="text" id="qb_user" name="qb_user"
-                            value="<?php echo htmlspecialchars($release['qb_user']); ?>"
+                            value="<?php echo htmlspecialchars($release['qb_user'] ?? ''); ?>"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
                 </div>
                 <div>
                     <label for="ole_version" class="block text-sm font-medium text-gray-700">CSC OLE VERSION</label>
                     <input type="text" id="ole_version" name="ole_version" 
-                            value="<?php echo htmlspecialchars($release['ole_version']); ?>"
+                            value="<?php echo htmlspecialchars($release['ole_version'] ?? ''); ?>"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
                 </div>
             </div>
@@ -175,19 +179,19 @@ if ($release['status'] === 'new' || empty($release['status'])) {
                     <div>
                         <label for="ap" class="block text-sm font-medium text-gray-700">AP</label>
                         <input type="text" id="ap" name="ap" required
-                                value="<?php echo htmlspecialchars($release['ap']); ?>"
+                                value="<?php echo htmlspecialchars($release['ap'] ?? ''); ?>"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
                         <label for="cp" class="block text-sm font-medium text-gray-700">CP</label>
                         <input type="text" id="cp" name="cp"
-                                value="<?php echo htmlspecialchars($release['cp']); ?>"
+                                value="<?php echo htmlspecialchars($release['cp'] ?? ''); ?>"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
                         <label for="csc" class="block text-sm font-medium text-gray-700">CSC</label>
                         <input type="text" id="csc" name="csc" required
-                                value="<?php echo htmlspecialchars($release['csc']); ?>"
+                                value="<?php echo htmlspecialchars($release['csc'] ?? ''); ?>"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                 </div>
@@ -196,15 +200,41 @@ if ($release['status'] === 'new' || empty($release['status'])) {
             <div>
                 <label for="qb_csc_user" class="block text-sm font-medium text-gray-700">QB CSC USER</label>
                 <input type="text" id="qb_csc_user" name="qb_csc_user"
-                        value="<?php echo htmlspecialchars($release['qb_csc_user']); ?>"
+                        value="<?php echo htmlspecialchars($release['qb_csc_user'] ?? ''); ?>"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
             </div>
 
             <div>
                 <label for="additional_cl" class="block text-sm font-medium text-gray-700">ADDITIONAL CL</label>
                 <input type="text" id="additional_cl" name="additional_cl"
-                        value="<?php echo htmlspecialchars($release['additional_cl']); ?>"
+                        value="<?php echo htmlspecialchars($release['additional_cl'] ?? ''); ?>"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
+            </div>
+
+            <div>
+                <label for="cl_sync" class="block text-sm font-medium text-gray-700">CL Sync</label>
+                <input type="text" id="cl_sync" name="cl_sync"
+                        value="<?php echo htmlspecialchars($release['cl_sync'] ?? ''); ?>"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
+            </div>
+
+            <div>
+                <label for="cl_partial_csc_oxm" class="block text-sm font-medium text-gray-700">CL Partial CSC OXM</label>
+                <input type="text" id="cl_partial_csc_oxm" name="cl_partial_csc_oxm"
+                        value="<?php echo htmlspecialchars($release['cl_partial_csc_oxm'] ?? ''); ?>"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="command_qb_user" class="block text-sm font-medium text-gray-700">Command QB User</label>
+                <textarea id="command_qb_user" name="command_qb_user" rows="3"
+                          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input"><?php echo htmlspecialchars($release['command_qb_user'] ?? ''); ?></textarea>
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="command_qb_eng" class="block text-sm font-medium text-gray-700">Command QB Eng</label>
+                <textarea id="command_qb_eng" name="command_qb_eng" rows="3"
+                          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input"><?php echo htmlspecialchars($release['command_qb_eng'] ?? ''); ?></textarea>
             </div>
 
             <div>
@@ -226,13 +256,13 @@ if ($release['status'] === 'new' || empty($release['status'])) {
                     <div>
                         <label for="qb_csc_user_xid" class="block text-sm font-medium text-gray-700">QB CSC USER (XID)</label>
                         <input type="text" id="qb_csc_user_xid" name="qb_csc_user_xid"
-                                value="<?php echo htmlspecialchars($release['qb_csc_user_xid']); ?>"
+                                value="<?php echo htmlspecialchars($release['qb_csc_user_xid'] ?? ''); ?>"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
                     </div>
                     <div>
                         <label for="qb_csc_eng" class="block text-sm font-medium text-gray-700">QB CSC ENG</label>
                         <input type="text" id="qb_csc_eng" name="qb_csc_eng"
-                                value="<?php echo htmlspecialchars($release['qb_csc_eng']); ?>"
+                                value="<?php echo htmlspecialchars($release['qb_csc_eng'] ?? ''); ?>"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 glow-input">
                     </div>
                 </div>
@@ -241,35 +271,35 @@ if ($release['status'] === 'new' || empty($release['status'])) {
             <div>
                 <label for="pic" class="block text-sm font-medium text-gray-700">PIC</label>
                 <input type="text" id="pic" name="pic" required
-                        value="<?php echo htmlspecialchars($release['pic']); ?>"
+                        value="<?php echo htmlspecialchars($release['pic'] ?? ''); ?>"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div>
                 <label for="release_note_format" class="block text-sm font-medium text-gray-700">Release Note Format</label>
                 <input readonly type="text" id="release_note_format" name="release_note_format"
-                        value="<?php echo htmlspecialchars($release['release_note_format']); ?>"
+                        value="<?php echo htmlspecialchars($release['release_note_format'] ?? ''); ?>"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div>
                 <label for="ap_mapping" class="block text-sm font-medium text-gray-700">AP Mapping</label>
                 <input readonly type="text" id="ap_mapping" name="ap_mapping"
-                        value="<?php echo htmlspecialchars($release['ap_mapping']); ?>"
+                        value="<?php echo htmlspecialchars($release['ap_mapping'] ?? ''); ?>"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div>
                 <label for="cp_mapping" class="block text-sm font-medium text-gray-700">CP Mapping</label>
                 <input readonly type="text" id="cp_mapping" name="cp_mapping"
-                        value="<?php echo htmlspecialchars($release['cp_mapping']); ?>"
+                        value="<?php echo htmlspecialchars($release['cp_mapping'] ?? ''); ?>"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div>
                 <label for="csc_version_up" class="block text-sm font-medium text-gray-700">CSC Version Up</label>
                 <input readonly type="text" id="csc_version_up" name="csc_version_up"
-                        value="<?php echo htmlspecialchars($release['csc_version_up']); ?>"
+                        value="<?php echo htmlspecialchars($release['csc_version_up'] ?? ''); ?>"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
         </div>
