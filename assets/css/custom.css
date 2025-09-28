@@ -262,3 +262,27 @@ body {
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
+
+/* assets/css/custom.css */
+
+/* Menjadikan table header (thead) sticky */
+thead th {
+    position: -webkit-sticky; /* Untuk kompatibilitas browser Safari */
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Memastikan header di atas konten lain saat scroll */
+}
+
+/* Menjadikan kolom terakhir (Actions) sticky */
+thead th:last-child,
+tbody td:last-child {
+    position: -webkit-sticky; /* Untuk kompatibilitas browser Safari */
+    position: sticky;
+    right: 0;
+    z-index: 10; /* Memastikan kolom aksi di atas konten lain saat scroll */
+}
+
+/* Memberi background pada kolom aksi agar tidak transparan saat scroll */
+tbody td:last-child {
+    background-color: #ffffff; /* Warna putih, sesuaikan jika perlu */
+}

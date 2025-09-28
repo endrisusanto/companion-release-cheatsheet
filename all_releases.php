@@ -166,6 +166,9 @@ $pagination = generatePagination($totalItems, $perPage, $page, $baseUrl, $queryS
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                 <i class="fas fa-filter mr-2"></i>Filter
             </button>
+            <a href="export.php" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md ml-2">
+                <i class="fas fa-file-excel mr-2"></i>Export to Excel
+            </a>
         </div>
     </form>
 
